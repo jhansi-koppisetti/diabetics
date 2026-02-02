@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker | GlycoGuardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%); min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
+        .symptom-card { border: none; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); background: white; overflow: hidden; }
+        .header-bg { background: #198754; color: white; padding: 30px; text-align: center; }
+        .symptom-item { border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; transition: 0.3s; }
+        .symptom-item:hover { background-color: #f8f9fa; border-color: #198754; }
+        .btn-predict { border-radius: 12px; padding: 12px; font-weight: 600; font-size: 1.1rem; }
+        .nav-link-custom { text-decoration: none; color: #6c757d; font-weight: 500; transition: 0.3s; }
+        .nav-link-custom:hover { color: #198754; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 mx-auto" style="max-width: 700px;">
+        <a href="/dashboard" class="nav-link-custom"><i class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
+        <a href="/" class="nav-link-custom"><i class="fas fa-home me-1"></i> Home</a>
+    </div>
+
+    <div class="card symptom-card mx-auto" style="max-width: 700px;">
+        <div class="header-bg">
+            <i class="fas fa-notes-medical fa-3x mb-3"></i>
+            <h2 class="fw-bold">Symptom Analysis</h2>
+            <p class="mb-0 opacity-75">Check according to the changes (symptoms) present in your body.</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <form action="/predict_symptoms" method="POST">
+                
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Patient Name</label>
+                    <input type="text" name="p_name" class="form-control rounded-pill p-2 px-3" value="{{ session['user_name'] }}" required>
+                </div>
+
+                <h5 class="fw-bold mb-4 text-dark border-bottom pb-2">Select Symptoms (Yes / No)</h5>
+
+                <div class="symptom-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 fw-bold">Excessive Thirst</h6>
+                        <small class="text-muted">heavy Excessive Thirst?</small>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="polydipsia" id="thirstY" value="Yes" required>
+                        <label class="btn btn-outline-success px-3" for="thirstY">Yes</label>
+                        <input type="radio" class="btn-check" name="polydipsia" id="thirstN" value="No">
+                        <label class="btn btn-outline-secondary px-3" for="thirstN">No</label>
+                    </div>
+                </div>
+
+                <div class="symptom-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 fw-bold">Frequent Urination </h6>
+                        <small class="text-muted">Are you going to the toilet frequently at night?</small>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="polyuria" id="urineY" value="Yes" required>
+                        <label class="btn btn-outline-success px-3" for="urineY">Yes</label>
+                        <input type="radio" class="btn-check" name="polyuria" id="urineN" value="No">
+                        <label class="btn btn-outline-secondary px-3" for="urineN">No</label>
+                    </div>
+                </div>
+
+                <div class="symptom-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 fw-bold">Increased Hunger </h6>
+                        <small class="text-muted">after meals agai you have incresed hunger?</small>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="polyphagia" id="hungerY" value="Yes" required>
+                        <label class="btn btn-outline-success px-3" for="hungerY">Yes</label>
+                        <input type="radio" class="btn-check" name="polyphagia" id="hungerN" value="No">
+                        <label class="btn btn-outline-secondary px-3" for="hungerN">No</label>
+                    </div>
+                </div>
+
+                <div class="symptom-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 fw-bold">Blurred Vision </h6>
+                        <small class="text-muted">you have blurred vission?</small>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="blurred" id="visionY" value="Yes" required>
+                        <label class="btn btn-outline-success px-3" for="visionY">Yes</label>
+                        <input type="radio" class="btn-check" name="blurred" id="visionN" value="No">
+                        <label class="btn btn-outline-secondary px-3" for="visionN">No</label>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <button type="submit" class="btn btn-success w-100 btn-predict shadow">
+                        Analyze Symptoms <i class="fas fa-heartbeat ms-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

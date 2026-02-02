@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP | GlycoGuardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .otp-card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .otp-input {
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            margin: 0 5px;
+            transition: 0.3s;
+        }
+        .otp-input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 8px rgba(13, 110, 253, 0.2);
+            outline: none;
+        }
+        .btn-verify {
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="otp-card">
+        <div class="d-flex justify-content-between mb-4">
+            <a href="/register" class="text-muted text-decoration-none small"><i class="fas fa-arrow-left"></i> Register</a>
+            <a href="/" class="text-muted text-decoration-none small">Home <i class="fas fa-home"></i></a>
+        </div>
+
+        <div class="mb-4">
+            <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                <i class="fas fa-shield-alt fa-2x text-primary"></i>
+            </div>
+            <h3 class="fw-bold">OTP Verification</h3>
+            <p class="text-muted">enter 4 digits code for your mail.</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} p-2 small mb-3">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/verify_otp" method="POST" id="otp-form">
+            <div class="d-flex justify-content-center mb-4">
+                <input type="text" name="otp1" class="otp-input" maxlength="1" pattern="\d*" inputmode="numeric" required>
+                <input type="text" name="otp2" class="otp-input" maxlength="1" pattern="\d*" inputmode="numeric" required>
+                <input type="text" name="otp3" class="otp-input" maxlength="1" pattern="\d*" inputmode="numeric" required>
+                <input type="text" name="otp4" class="otp-input" maxlength="1" pattern="\d*" inputmode="numeric" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-verify shadow-sm">Verify & Create Account</button>
+        </form>
+
+        <p class="mt-4 text-muted small">otp there in youe  terminal? <a href="/register" class="text-primary fw-bold text-decoration-none">try again</a></p>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

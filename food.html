@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Chart | GlycoGuardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
+        .diet-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .header-gradient {
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        /* Risk colors based on session data */
+        .bg-danger-grad { background: linear-gradient(135deg, #e63946, #b91c1c); }
+        .bg-warning-grad { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .bg-success-grad { background: linear-gradient(135deg, #10b981, #059669); }
+
+        .food-section { padding: 30px; }
+        .list-box {
+            padding: 20px;
+            border-radius: 15px;
+            height: 100%;
+        }
+        .do-box { background-color: #ecfdf5; border-left: 6px solid #10b981; }
+        .dont-box { background-color: #fef2f2; border-left: 6px solid #ef4444; }
+        
+        .food-item {
+            list-style: none;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-weight: 500;
+        }
+        .food-item:last-child { border: none; }
+        .btn-nav { border-radius: 30px; padding: 10px 25px; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between mb-4">
+        <div>
+            <a href="/" class="btn btn-light btn-nav shadow-sm me-2">🏠 Home</a>
+            <a href="/dashboard" class="btn btn-light btn-nav shadow-sm">← Dashboard</a>
+        </div>
+        <button onclick="window.print()" class="btn btn-dark btn-nav shadow-sm">
+            <i class="fas fa-print me-2"></i> Print Chart
+        </button>
+    </div>
+
+    <div class="card diet-card">
+        <div class="header-gradient {% if risk == 'danger' %}bg-danger-grad{% elif risk == 'warning' %}bg-warning-grad{% else %}bg-success-grad{% endif %}">
+            <h1 class="fw-bold">Personalized Diet Plan</h1>
+            <p class="lead mb-0">Recommended for <strong>{{ name }}</strong></p>
+            <span class="badge bg-white text-dark mt-2 p-2 px-3 rounded-pill">Status: {{ risk.upper() }} RISK</span>
+        </div>
+
+        <div class="food-section">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="list-box do-box">
+                        <h4 class="text-success fw-bold mb-3"><i class="fas fa-check-circle me-2"></i> (Do's)</h4>
+                        <ul class="ps-0">
+                            {% for item in dos %}
+                            <li class="food-item text-dark"><i class="fas fa-plus text-success me-2"></i> {{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="list-box dont-box">
+                        <h4 class="text-danger fw-bold mb-3"><i class="fas fa-times-circle me-2"></i> (Don'ts)</h4>
+                        <ul class="ps-0">
+                            {% for item in donts %}
+                            <li class="food-item text-dark"><i class="fas fa-minus text-danger me-2"></i> {{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 p-4 bg-light rounded-4 border">
+                <h5 class="fw-bold"><i class="fas fa-lightbulb text-warning me-2"></i> Health Tip:</h5>
+                <p class="mb-0 text-muted">Walking for at least 30 minutes every day and drinking plenty of water is very good for your health. Follow the above dietary rules strictly</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

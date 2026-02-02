@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result | GlycoGuardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .result-card { border: none; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; background: white; }
+        .result-header { padding: 40px; text-align: center; color: white; }
+        .status-danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .status-warning { background: linear-gradient(135deg, #f8961e, #f9c74f); color: #333 !important; }
+        .status-success { background: linear-gradient(135deg, #00b09b, #96c93d); }
+        .info-box { background: #fdfdfd; border: 1px solid #eee; border-radius: 15px; padding: 20px; }
+        .btn-custom { border-radius: 30px; padding: 12px 30px; font-weight: 600; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between mb-4">
+        <div>
+            <a href="/dashboard" class="btn btn-light shadow-sm rounded-pill px-4 me-2">← Back</a>
+            <a href="/" class="btn btn-light shadow-sm rounded-pill px-4">🏠 Home</a>
+        </div>
+        <button onclick="window.print()" class="btn btn-outline-dark shadow-sm rounded-pill"><i class="fas fa-print"></i></button>
+    </div>
+
+    <div class="card result-card mx-auto" style="max-width: 700px;">
+        <div class="result-header {% if color == 'danger' %}status-danger{% elif color == 'warning' %}status-warning{% else %}status-success{% endif %}">
+            <h5 class="text-uppercase opacity-75 mb-2">{{ type }} Result</h5>
+            <h1 class="display-4 fw-bold mb-0">{{ result }}</h1>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <div class="row mb-4 text-center">
+                <div class="col-6 border-end">
+                    <p class="text-muted mb-1">Patient Name</p>
+                    <h5 class="fw-bold">{{ p_name }}</h5>
+                </div>
+                <div class="col-6">
+                    <p class="text-muted mb-1">Report Date</p>
+                    <h5 class="fw-bold">{{ date }}</h5>
+                </div>
+            </div>
+
+            <div class="info-box mb-4">
+                <h5 class="fw-bold mb-3"><i class="fas fa-info-circle me-2 text-primary"></i> Analysis Detail:</h5>
+                <p class="mb-0 text-muted fs-5">{{ msg }}</p>
+            </div>
+
+            <div class="alert {% if color == 'danger' %}alert-danger{% elif color == 'warning' %}alert-warning{% else %}alert-success{% endif %} rounded-4 p-3 border-0">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="fas {% if color == 'danger' %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %} fa-2x"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Doctor's Note:</h6>
+                        <small>Based on your results, see the personalized diet plan we have prepared.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3 mt-5">
+                <a href="/food_chart" class="btn btn-primary btn-custom shadow">View My Personalized Diet Plan <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="/dashboard" class="btn btn-outline-secondary btn-custom">Return to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

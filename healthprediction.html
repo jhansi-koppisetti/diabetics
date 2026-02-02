@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Analysis | GlycoGuardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%); min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
+        .predict-card { border: none; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); background: #ffffff; overflow: hidden; }
+        .form-header { background: #0d6efd; color: white; padding: 30px; text-align: center; }
+        .btn-predict { border-radius: 12px; padding: 12px; font-weight: 600; transition: 0.3s; }
+        .form-label { font-weight: 600; color: #495057; }
+        .input-group-text { background: #f8f9fa; border-right: none; }
+        .form-control { border-left: none; border-radius: 0 10px 10px 0; }
+        .form-control:focus { box-shadow: none; border-color: #dee2e6; }
+        .nav-link-custom { text-decoration: none; color: #6c757d; font-weight: 500; transition: 0.3s; }
+        .nav-link-custom:hover { color: #0d6efd; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 mx-auto" style="max-width: 600px;">
+        <a href="/dashboard" class="nav-link-custom"><i class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
+        <a href="/" class="nav-link-custom"><i class="fas fa-home me-1"></i> Home</a>
+    </div>
+
+    <div class="card predict-card mx-auto" style="max-width: 600px;">
+        <div class="form-header">
+            <i class="fas fa-file-medical fa-3x mb-3"></i>
+            <h2 class="fw-bold">Clinical Analysis</h2>
+            <p class="mb-0 opacity-75">Enter your lab test results below</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form action="/predict_clinical" method="POST">
+                <div class="mb-4">
+                    <label class="form-label">Blood Glucose Level (mg/dL)</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-tint text-danger"></i></span>
+                        <input type="number" step="0.01" name="glucose" class="form-control" placeholder="Ex: 120" required>
+                    </div>
+                    <small class="text-muted">Enter fasting or post-lunch sugar value</small>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Blood Pressure (Systolic)</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-heartbeat text-primary"></i></span>
+                        <input type="number" step="0.01" name="bp" class="form-control" placeholder="Ex: 130" required>
+                    </div>
+                    <small class="text-muted">Enter systolic blood pressure value..</small>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <label class="form-label">Age</label>
+                        <input type="number" name="age" class="form-control" style="border-left: 1px solid #dee2e6; border-radius: 10px;" placeholder="Years">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select" style="border-radius: 10px;">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 btn-predict shadow-sm">
+                    Generate Health Report <i class="fas fa-chevron-right ms-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="text-center mt-4 text-white-50">
+        <small>© 2026 GlycoGuardian - AI Powered Diabetes Guardian</small>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
